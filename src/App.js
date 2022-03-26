@@ -9,13 +9,13 @@ import { createBucket } from "./redux/modules/bucket";
 import BucketList from "./BucketList";
 import Detail from "./Detail";
 import NotFound from "./NotFound";
+import Progress from "./Progress";
 
 function App() {
   const [list, setList] = React.useState([
     "영화관 가기",
     "매일 책읽기",
     "수영 배우기",
-    "고양이랑 놀기",
   ]);
   const text = React.useRef(null);
   const dispatch = useDispatch();
@@ -31,6 +31,7 @@ function App() {
     <div className="App">
       <Container>
         <Title>내 버킷리스트</Title>
+        <Progress />
         <Line />
         {/* 컴포넌트를 넣어줍니다. */}
         {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
@@ -38,7 +39,7 @@ function App() {
           <Route path="/" exact>
             <BucketList list={list} />
           </Route>
-          <Route path="/detail/:index_num">
+          <Route path="/detail/:index">
             <Detail />
           </Route>
           <Route>

@@ -1,34 +1,35 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteBucket } from "./redux/modules/bucket";
+import { deleteBucket, updateBucket } from "./redux/modules/bucket";
 
 const Detail = (props) => {
-  const history = useHistory();
-
-  const params = useParams();
-  const bucket_index = params.index_num;
-  const bucket_list = useSelector((state) => state.bucket.list);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const params = useParams();
+  const bucket_index = params.index;
+  const bucket_list = useSelector((state) => state.bucket.list);
 
-  console.log(bucket_list);
-  console.log(bucket_index);
-  console.log(bucket_list[bucket_index]);
   return (
-    <>
-      <div>
-        <h1>{bucket_list[bucket_index]}</h1>
-        <button
-          onClick={() => {
-            console.log("삭제하기 버튼 누름");
-            dispatch(deleteBucket(bucket_index));
-            history.goBack();
-          }}
-        >
-          삭제!
-        </button>
-      </div>
-    </>
+    <div>
+      <h1>{bucket_list[bucket_index].text}</h1>
+      <button
+        onClick={() => {
+          dispatch(updateBucket(bucket_index));
+        }}
+      >
+        완료하기
+      </button>
+      <button
+        onClick={() => {
+          console.log("삭제하기 버튼을 눌렀어!");
+          dispatch(deleteBucket(bucket_index));
+          history.goBack();
+        }}
+      >
+        삭제하기
+      </button>
+    </div>
   );
 };
 
