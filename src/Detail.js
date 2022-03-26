@@ -24,7 +24,8 @@ const Detail = (props) => {
         onClick={() => {
           console.log("삭제하기 버튼을 눌렀어!");
           dispatch(deleteBucket(bucket_index));
-          history.goBack();
+          history.push("/");
+          // 에러 메시지 history.goBack();
         }}
       >
         삭제하기
