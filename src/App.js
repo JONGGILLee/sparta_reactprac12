@@ -25,8 +25,9 @@ function App() {
     // 원본 배열 list에 새로운 요소를 추가해주었습니다.
     // setList([...list, text.current.value]);
 
-    dispatch(createBucket(text.current.value));
+    dispatch(createBucket({ text: text.current.value, completed: false }));
   };
+
   return (
     <div className="App">
       <Container>
@@ -52,6 +53,13 @@ function App() {
         <input type="text" ref={text} />
         <button onClick={addBucketList}>추가하기</button>
       </Input>
+      <button
+        onClick={() => {
+          window.scrollTo({ top: 0, letf: 0, behavior: "smooth" });
+        }}
+      >
+        맨 위로 가기
+      </button>
     </div>
   );
 }
@@ -64,6 +72,24 @@ const Input = styled.div`
   margin: 20px auto;
   border-radius: 5px;
   border: 1px solid #ddd;
+  & > * {
+    padding: 7px;
+    // * 의미: 모두
+  }
+  & input {
+    border: 1px solid green;
+    margin-right: 5px;
+  }
+  & input:focus {
+    outline: none;
+    border: 1px solid #a673ff;
+  }
+  & button {
+    width: 25%;
+    color: #fff;
+    border: #a673ff;
+    background: #a673ff;
+  }
 `;
 
 const Container = styled.div`
