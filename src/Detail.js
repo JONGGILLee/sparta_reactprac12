@@ -8,6 +8,9 @@ import {
   updateBucketFB,
 } from "./redux/modules/bucket";
 
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
 const Detail = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -18,15 +21,18 @@ const Detail = (props) => {
   return (
     <div>
       <h1>{bucket_list[bucket_index].text}</h1>
-      <button
+      <Button
+        variant="outlined"
         onClick={() => {
           // dispatch(updateBucket(bucket_index));
           dispatch(updateBucketFB(bucket_list[bucket_index].id));
         }}
       >
         완료하기
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="outlined"
+        color="error"
         onClick={() => {
           dispatch(deleteBucketFB(bucket_list[bucket_index].id));
           history.push("/");
@@ -34,7 +40,7 @@ const Detail = (props) => {
         }}
       >
         삭제하기
-      </button>
+      </Button>
     </div>
   );
 };

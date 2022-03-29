@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createBucket,
   loadBucketFB,
   addBucketFB,
 } from "./redux/modules/bucket";
+import Spinner from "./Spinner";
 
 // BucketList 컴포넌트를 import 해옵니다.
 // import [컴포넌트 명] from [컴포넌트가 있는 파일경로];
@@ -33,6 +34,7 @@ function App() {
   ]);
   const text = React.useRef(null);
   const dispatch = useDispatch();
+  const is_loaded = useSelector((state) => state.bucket.is_loaded);
 
   React.useEffect(async () => {
     dispatch(loadBucketFB());
@@ -80,6 +82,7 @@ function App() {
       >
         맨 위로 가기
       </button>
+      {!is_loaded && <Spinner />}
     </div>
   );
 }

@@ -16,8 +16,10 @@ const LOAD = "bucket/LOAD";
 const CREATE = "bucket/CREATE";
 const UPDATE = "bucket/UPDATE";
 const DELETE = "bucket/DELETE";
+const LOADED = "bucket/LOADED";
 
 const initialState = {
+  is_loaded: false,
   list: [
     { text: "영화관 가기", completed: false },
     { text: "매일 책읽기", completed: false },
@@ -45,6 +47,10 @@ export function deleteBucket(bucket_index) {
   return { type: DELETE, bucket_index };
 }
 
+export function isLoaded(loaded) {
+  return { type: LOADED, loaded };
+}
+
 //middlewares
 export const loadBucketFB = () => {
   return async function (dispatch) {
@@ -67,6 +73,7 @@ export const loadBucketFB = () => {
 
 export const addBucketFB = (bucket) => {
   return async function (dispatch) {
+    dispatch(isLoaded(false));
     const docRef = await addDoc(collection(db, "bucket"), bucket);
     const bucket_data = { id: docRef.id, ...bucket };
 
@@ -111,12 +118,12 @@ export const deleteBucketFB = (bucket_id) => {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "bucket/LOAD": {
-      return { list: action.bucket_list };
+      return { list: action.bucket_list, is_loaded: true };
     }
     case "bucket/CREATE": {
       console.log("이제 값을 바꿀거야!");
       const new_bucket_list = [...state.list, action.bucket];
-      return { list: new_bucket_list };
+      return { ...state, list: new_bucket_list, is_loaded: true };
     }
 
     case "bucket/UPDATE": {
@@ -128,7 +135,7 @@ export default function reducer(state = initialState, action = {}) {
         }
       });
       console.log({ list: new_bucket_list });
-      return { list: new_bucket_list };
+      return { ...state, list: new_bucket_list };
     }
 
     case "bucket/DELETE": {
@@ -136,8 +143,13 @@ export default function reducer(state = initialState, action = {}) {
         return parseInt(action.bucket_index) !== idx;
       });
 
-      return { list: new_bucket_list };
+      return { ...state, list: new_bucket_list };
     }
+
+    case "bucket/LOADED": {
+      return { ...state, is_loaded: action.loaded };
+    }
+
     default:
       return state;
   }
